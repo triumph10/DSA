@@ -1,0 +1,44 @@
+public class Solution {
+    public int minimumDeletions(int[] nums) {
+        int n = nums.length;
+        if (n == 1) return 1;
+
+        int minIndex = 0;
+        int maxIndex = 0;
+
+        // Find the indices of the minimum and maximum elements
+        for (int i = 1; i < n; i++) {
+            if (nums[i] < nums[minIndex]) {
+                minIndex = i;
+            }
+            if (nums[i] > nums[maxIndex]) {
+                maxIndex = i;
+            }
+        }
+
+        // Ensure minIndex is always less than or equal to maxIndex for simplicity
+        if (minIndex > maxIndex) {
+            int temp = minIndex;
+            minIndex = maxIndex;
+            maxIndex = temp;
+        }
+
+        // Option 1: Remove both from the front
+        int removeFromFront = maxIndex + 1;
+
+        // Option 2: Remove both from the back
+        int removeFromBack = n - minIndex;
+
+        // Option 3: Remove min from the front and max from the back
+        int removeFromBothSides = minIndex + 1 + (n - maxIndex);
+
+        // Return the minimum of the three options
+        return Math.min(removeFromFront, Math.min(removeFromBack, removeFromBothSides));
+    }
+
+    public static void main(String[] args) {
+        Solution solution = new Solution();
+        int[] nums = {2, 10, 7, 5, 4, 1, 8, 6};
+        System.out.println(solution.minimumDeletions(nums));  // Output: 5
+    }
+}
